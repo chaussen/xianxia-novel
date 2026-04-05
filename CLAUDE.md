@@ -24,6 +24,11 @@
 - 不允许直接 `git merge` 到 main
 - 定稿后推送arc分支，等用户手动发起或要求开 PR
 
+### preview/combined.md 自动生成
+- `preview/combined.md` 由 GitHub Actions **自动生成**，push 到 arc-* / chapter-* 分支后触发
+- **禁止手动生成或提交 `preview/combined.md`**，让 Actions 处理即可
+- 不要在 `git add` 中包含此文件
+
 ---
 
 ## 写作流程
