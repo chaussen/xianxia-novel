@@ -62,11 +62,11 @@ git add .
 # 提交（替换X为章节号）
 git commit -m "release: 第X章定稿，更新世界日历和章节日志"
 
-# 如果是在 feature branch 上，合并回主分支
-git checkout main
-git merge chapter-0X
-git branch -d chapter-0X
+# 推送到章节分支
+git push origin [当前章节分支]
 ```
+
+> ⚠️ 合并进 main 必须开 PR，不直接 merge。
 
 ---
 

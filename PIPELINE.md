@@ -27,10 +27,25 @@ xianxia-novel/
 
 ## 每章流水线：四步 + 收尾
 
-### 准备：新建分支
+### 准备：分支判断
+
+**两种情况，按实际情况选一：**
+
+**情况A：还没有章节分支**
+用户说"写第X章"但当前没有对应分支 → 自行建立，命名统一为 `chapter-[章节号]`：
 ```bash
 git checkout -b chapter-[章节号]
+git push -u origin chapter-[章节号]
 ```
+
+**情况B：当前已在章节分支上**
+当前分支名与写作内容一致 → 直接在此分支提交，不新建：
+```bash
+# 确认当前分支
+git branch --show-current
+```
+
+> ⚠️ 任何分支合并进 main 都必须通过 PR，不直接 merge。
 
 ---
 
@@ -145,10 +160,10 @@ git add drafts/ && git commit -m "fix: 第X章根据审查修改"
 mv drafts/0X_draft.md chapters/0X_chapter.md
 git add .
 git commit -m "release: 第X章定稿，更新世界日历和章节日志"
-git checkout main
-git merge chapter-[章节号]
-git branch -d chapter-[章节号]
+git push origin [当前章节分支]
 ```
+
+> ⚠️ 不直接 merge 进 main。定稿后开 PR，由用户审批合并。
 
 ---
 
