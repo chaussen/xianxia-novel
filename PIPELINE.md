@@ -167,6 +167,41 @@ git push origin [当前章节分支]
 
 ---
 
+### 发布更新：用户说"定稿发布了"时执行
+
+当用户确认某章已在外部平台发布，执行以下操作：
+
+1. 将定稿正文复制到 `published/` 目录，文件命名规则：
+   - 序章：`published/prologue.md`
+   - 第X章：`published/chapter-[0X].md`（如 `published/chapter-03.md`）
+
+2. 文件格式固定为：
+   ```markdown
+   # 第X章：[章节标题]
+   
+   > 作者：冏｜来源：LOFTER
+   
+   ---
+   
+   【当前状态监测】
+   修为境界：…
+   核心道具：…
+   环境逻辑：…
+   
+   ---
+   
+   [正文]
+   ```
+
+3. 提交：
+   ```bash
+   git add published/
+   git commit -m "published: 第X章已发布，归档至published/"
+   git push origin [当前章节分支]
+   ```
+
+---
+
 ## 跳步操作（熟悉后）
 
 场景已清楚时，可以跳过第一步直接从第二步开始。

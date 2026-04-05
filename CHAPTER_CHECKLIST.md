@@ -70,6 +70,13 @@ git push origin [当前章节分支]
 
 ---
 
+## 第六步：发布归档（用户说"已发布"时才执行）
+
+- [ ] 将发布正文复制到 `published/chapter-[0X].md`（格式见 PIPELINE.md）
+- [ ] `git commit -m "published: 第X章已发布"`
+
+---
+
 ## 快速自查（提交前30秒）
 
 - [ ] 本章有没有用过之前已用的物理原理？（查 CHAPTER_LOG）
