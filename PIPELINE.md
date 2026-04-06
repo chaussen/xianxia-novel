@@ -9,37 +9,38 @@
 
 ```
 xianxia-novel/
-├── MASTER_CODEX.md        ← 世界观、人物、禁止事项（所有BOT必读）
-├── CHAPTER_LOG.md         ← 章节日志、已用物理原理
-├── WORLD_CALENDAR.md      ← 弃剑坑背景事件
-├── CHAPTER_CHECKLIST.md   ← 章节收尾检查表
-├── PIPELINE.md            ← 本文件
-├── chapters/              ← 已定稿章节
-├── drafts/                ← 草稿区
-└── bots/
-    ├── main-architect/PROMPT.md
-    ├── gewu-agent/PROMPT.md
-    ├── writer-agent/PROMPT.md
-    └── logic-reviewer/PROMPT.md
+├── MASTER_CODEX.md              ← 世界观、人物、禁止事项（所有BOT必读）
+├── CHAPTER_LOG.md               ← 章节日志、已用物理原理
+├── WORLD_CALENDAR.md            ← 弃剑坑背景事件
+├── CHAPTER_CHECKLIST.md         ← 章节收尾检查表
+├── PIPELINE.md                  ← 本文件
+├── drafts/                      ← 草稿区（定稿未发布也留在此处）
+├── published/                   ← 已发布章节归档
+├── main-architect-PROMPT.md     ← 主架构师
+├── gewu-agent-PROMPT.md         ← 格物院
+├── writer-agent-PROMPT.md       ← 执笔人
+├── logic-reviewer-PROMPT.md     ← 逻辑员
+└── reader-agent-PROMPT.md       ← 读者Agent
 ```
 
 ---
 
-## 每章流水线：四步 + 收尾
+## 每章流水线：五步 + 收尾
 
 ### 准备：分支判断
 
 **两种情况，按实际情况选一：**
 
-**情况A：还没有章节分支**
-用户说"写第X章"但当前没有对应分支 → 自行建立，命名统一为 `chapter-[章节号]`：
+**情况A：新叙事单元，无对应 arc 分支**
+用户说"开始新单元"或"写第X章"但当前没有对应分支 → 建立 arc 分支：
 ```bash
-git checkout -b chapter-[章节号]
-git push -u origin chapter-[章节号]
+git checkout -b arc-NN
+git push -u origin arc-NN
 ```
+单元边界（包含哪几章、叙事冲突是什么）写进第一个 commit message。
 
-**情况B：当前已在章节分支上**
-当前分支名与写作内容一致 → 直接在此分支提交，不新建：
+**情况B：已在正确 arc 分支上**
+同一叙事单元内的新章节 → 在同一分支追加提交，不新建：
 ```bash
 # 确认当前分支
 git branch --show-current
