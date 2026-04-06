@@ -2,21 +2,32 @@
 
 ## 分支策略
 
-### 每章独用一个分支
-- 每一章对应一个独立分支，命名统一为 `chapter-[章节号]`（如 `chapter-03`）
-- 同一章的所有工作（流水线各步骤、修订、Agent指令更新）都提交到该章节分支
-- **不允许**在一个分支上混入多章节的内容
+### 按叙事单元（arc）建分支
+- 每个**叙事单元**对应一个分支，命名为 `arc-NN`（如 `arc-02`）
+- 一个叙事单元 = 2-4章，共享同一个叙事冲突的起承转合
+- 单元内所有章节的流水线工作、修订、Agent指令更新全部提交到同一分支
+- 单元边界由主架构师在开始写作前确认，写进第一个commit的message里
 
-### 分支判断（写章节前先检查）
+### 旧分支（chapter-NN）
+- 历史遗留的 `chapter-03` 等分支保留，不合并、不删除
+- 新工作一律使用 `arc-NN` 命名
+
+### 分支判断（开始写之前先检查）
 | 情况 | 操作 |
 |---|---|
-| 用户说"写第X章"，但无 `chapter-0X` 分支 | `git checkout -b chapter-0X` + `git push -u origin chapter-0X` |
-| 已在正确章节分支上 | 直接提交，不新建分支 |
+| 新单元，无对应arc分支 | `git checkout -b arc-NN` + `git push -u origin arc-NN` |
+| 已在正确arc分支上 | 直接提交，不新建分支 |
+| 单元内新增章节 | 在同一arc分支追加提交 |
 
 ### 合并规则
-- **任何章节分支合并进 `main` 必须通过 PR**
+- **任何arc分支合并进 `main` 必须通过 PR**
 - 不允许直接 `git merge` 到 main
-- 定稿后提交并推送章节分支，等用户手动发起或要求开 PR
+- 定稿后推送arc分支，等用户手动发起或要求开 PR
+
+### preview/combined.md 自动生成
+- `preview/combined.md` 由 GitHub Actions **自动生成**，push 到 arc-* / chapter-* 分支后触发
+- **禁止手动生成或提交 `preview/combined.md`**，让 Actions 处理即可
+- 不要在 `git add` 中包含此文件
 
 ---
 

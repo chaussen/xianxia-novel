@@ -1,0 +1,61 @@
+name: 合并草稿预览
+
+on:
+  push:
+    branches:
+      - 'arc-*'
+      - 'chapter-*'
+
+jobs:
+  combine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 拼接所有草稿文件
+        run: |
+          mkdir -p preview
+          files=$(ls drafts/[0-9][0-9]_draft.md 2>/dev/null | sort)
+
+          if [ -z "$files" ]; then
+            echo "没有找到草稿文件，跳过。"
+            exit 0
+          fi
+
+          branch="${GITHUB_REF_NAME}"
+          updated="$(date -u '+%Y-%m-%d %H:%M UTC')"
+
+          {
+            echo "# 《理法修途》草稿合并预览"
+            echo ""
+            echo "> 分支：\`${branch}\`　|　最后更新：${updated}"
+            echo ""
+          } > preview/combined.md
+
+          for f in $files; do
+            chapter=$(basename "$f" _draft.md)
+            echo "" >> preview/combined.md
+            echo "---" >> preview/combined.md
+            echo "" >> preview/combined.md
+            echo "<!-- ${chapter} -->" >> preview/combined.md
+            echo "" >> preview/combined.md
+            cat "$f" >> preview/combined.md
+          done
+
+          echo ""
+          echo "已合并文件："
+          echo "$files"
+
+      - name: 提交合并文件
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add preview/combined.md
+          if git diff --staged --quiet; then
+            echo "combined.md 无变化，跳过提交。"
+          else
+            git commit -m "auto: 更新草稿合并预览 [skip ci]"
+            git push
+          fi
