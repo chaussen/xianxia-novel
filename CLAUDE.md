@@ -9,7 +9,7 @@
 - 单元边界由主架构师在开始写作前确认，写进第一个commit的message里
 
 ### 旧分支（chapter-NN）
-- 历史遗留的 `chapter-03` 等分支保留，不合并、不删除
+- 历史遗留的 `chapter-NN` 分支已清理，现由 `arc-NN` 统一管理
 - 新工作一律使用 `arc-NN` 命名
 
 ### 分支判断（开始写之前先检查）
@@ -39,6 +39,8 @@
 - 文件归档（`drafts/` → `chapters/`）
 - 更新 `CHAPTER_LOG.md` / `WORLD_CALENDAR.md` / `MASTER_CODEX.md`
 - 发布性 commit
+
+**用户说"定稿"或"发布"后，必须先读 `CHAPTER_CHECKLIST.md`，逐条核对，补完所有未完成项再提交。** 不跳过，不凭记忆估算。
 
 ---
 
