@@ -57,7 +57,7 @@ git branch --show-current
 - MASTER_CODEX.md
 - CHAPTER_LOG.md
 - WORLD_CALENDAR.md
-- bots/main-architect/PROMPT.md
+- bots/main-architect.md
 
 你的角色和指令在PROMPT.md中。
 任务：为第[X]章规划场景骨架，并说明需要更新的世界日历内容。
@@ -66,7 +66,7 @@ git branch --show-current
 **你的选择：**
 - 满意 → 说「保存到drafts/0X_architect_brief.md，进入第二步」
 - 有意见 → 直接说意见，AI修改后重新确认
-- 意见是规则性的 → 说「把这条规则加进bots/main-architect/PROMPT.md」
+- 意见是规则性的 → 说「把这条规则加进bots/main-architect.md」
 
 ```bash
 git add drafts/ bots/ && git commit -m "chore: 第X章场景规划"
@@ -82,7 +82,7 @@ git add drafts/ bots/ && git commit -m "chore: 第X章场景规划"
 - MASTER_CODEX.md
 - CHAPTER_LOG.md
 - WORLD_CALENDAR.md
-- bots/gewu-agent/PROMPT.md
+- bots/gewu.md
 - drafts/0X_architect_brief.md
 
 你的角色和指令在PROMPT.md中。
@@ -92,7 +92,7 @@ git add drafts/ bots/ && git commit -m "chore: 第X章场景规划"
 **你的选择：**
 - 满意 → 说「保存到drafts/0X_physics_plan.md，进入第三步」
 - 有意见 → 直接说，AI修改
-- 意见是规则性的 → 说「把这条规则加进bots/gewu-agent/PROMPT.md」
+- 意见是规则性的 → 说「把这条规则加进bots/gewu.md」
 
 ```bash
 git add drafts/ bots/ && git commit -m "chore: 第X章物理方案书"
@@ -106,7 +106,7 @@ git add drafts/ bots/ && git commit -m "chore: 第X章物理方案书"
 ```
 请读取以下文件内容：
 - MASTER_CODEX.md
-- bots/writer-agent/PROMPT.md
+- bots/writer.md
 - drafts/0X_physics_plan.md
 
 你的角色和指令在PROMPT.md中。
@@ -117,7 +117,7 @@ git add drafts/ bots/ && git commit -m "chore: 第X章物理方案书"
 **你的选择：**
 - 满意 → 说「保存到drafts/0X_draft.md，进入第四步」
 - 有意见 → 直接说，AI修改
-- 意见是规则性的 → 说「把这条规则加进bots/writer-agent/PROMPT.md」
+- 意见是规则性的 → 说「把这条规则加进bots/writer.md」
 
 ```bash
 git add drafts/ bots/ && git commit -m "draft: 第X章初稿"
@@ -132,7 +132,7 @@ git add drafts/ bots/ && git commit -m "draft: 第X章初稿"
 请读取以下文件内容：
 - MASTER_CODEX.md
 - CHAPTER_LOG.md
-- bots/logic-reviewer/PROMPT.md
+- bots/logic-reviewer.md
 - drafts/0X_draft.md
 
 你的角色和指令在PROMPT.md中。
@@ -142,7 +142,7 @@ git add drafts/ bots/ && git commit -m "draft: 第X章初稿"
 **你的选择：**
 - 评级A/B → 把报告里的❌发回执笔人修改，修完直接定稿
 - 评级C/D → 把报告发回执笔人，说「根据审查报告重写以下段落」
-- 逻辑员漏掉了某类问题 → 说「把这类检查加进bots/logic-reviewer/PROMPT.md」
+- 逻辑员漏掉了某类问题 → 说「把这类检查加进bots/logic-reviewer.md」
 
 循环执笔人↔逻辑员，直到评级达到A或B。
 
