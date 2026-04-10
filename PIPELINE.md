@@ -82,7 +82,7 @@ git branch --show-current
 **你的选择：**
 - 满意 → 说「保存到 drafts/0X_architect_brief.md，进入第二步」
 - 有意见 → 直接说意见，AI修改后重新确认
-- 意见是规则性的 → 说「把这条规则加进 bots/main-architect.md」
+- 意见是规则性的 → 说「把这条规则加进bots/main-architect.md」
 
 ```bash
 git add drafts/ bots/ && git commit -m "chore: 第X章场景规划"
@@ -101,7 +101,6 @@ git add drafts/ bots/ && git commit -m "chore: 第X章场景规划"
 - MASTER_CODEX.md
 - CHAPTER_LOG.md
 - WORLD_CALENDAR.md
-- TIANGONG_LILUE.md
 - bots/gewu.md
 - drafts/0X_architect_brief.md
 
@@ -112,7 +111,7 @@ git add drafts/ bots/ && git commit -m "chore: 第X章场景规划"
 **你的选择：**
 - 满意 → 说「保存到 drafts/0X_physics_plan.md，进入第三步」
 - 有意见 → 直接说，AI修改
-- 意见是规则性的 → 说「把这条规则加进 bots/gewu.md」
+- 意见是规则性的 → 说「把这条规则加进bots/gewu.md」
 
 ```bash
 git add drafts/ bots/ && git commit -m "chore: 第X章物理方案书"
@@ -137,7 +136,7 @@ git add drafts/ bots/ && git commit -m "chore: 第X章物理方案书"
 **你的选择：**
 - 满意 → 说「保存到 drafts/0X_draft.md，进入第四步」
 - 有意见 → 直接说，AI修改
-- 意见是规则性的 → 说「把这条规则加进 bots/writer.md」
+- 意见是规则性的 → 说「把这条规则加进bots/writer.md」
 
 ```bash
 git add drafts/ bots/ && git commit -m "draft: 第X章初稿"
@@ -160,9 +159,9 @@ git add drafts/ bots/ && git commit -m "draft: 第X章初稿"
 ```
 
 **你的选择：**
-- 评级A/B → 把报告里的❌发回执笔BOT修改，修完进第五步
-- 评级C/D → 把报告发回执笔BOT，说「根据审查报告重写以下段落」
-- 逻辑BOT漏掉了某类问题 → 说「把这类检查加进 bots/logic-reviewer.md」
+- 评级A/B → 把报告里的❌发回执笔人修改，修完直接定稿
+- 评级C/D → 把报告发回执笔人，说「根据审查报告重写以下段落」
+- 逻辑员漏掉了某类问题 → 说「把这类检查加进bots/logic-reviewer.md」
 
 循环执笔↔逻辑，直到评级达到A或B。
 
