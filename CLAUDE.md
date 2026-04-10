@@ -33,12 +33,14 @@
 
 ## 写作流程
 
-遵循 `PIPELINE.md` 的四步流水线：主架构师 → 格物Agent → 执笔人 → 逻辑审查员。
+遵循 `PIPELINE.md` 的五步流水线：主架构BOT → 格物BOT → 执笔BOT → 逻辑BOT → 读者BOT。读者BOT优先级最高，其意见高于格物BOT。BOT文件均在 `bots/` 目录下。
 
 **定稿前必须停下来让用户审阅**，不在用户确认前执行：
 - 文件归档（`drafts/` → `chapters/`）
 - 更新 `CHAPTER_LOG.md` / `WORLD_CALENDAR.md` / `MASTER_CODEX.md`
 - 发布性 commit
+
+**用户说"定稿"或"发布"后，必须先读 `CHAPTER_CHECKLIST.md`，逐条核对，补完所有未完成项再提交。** 不跳过，不凭记忆估算。
 
 ---
 
