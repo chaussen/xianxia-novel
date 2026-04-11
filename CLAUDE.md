@@ -1,33 +1,23 @@
 # Claude Code 项目规则 — 理法修途
 
-## 分支策略
+## 分支策略：Trunk
 
-### 按叙事单元（arc）建分支
-- 每个**叙事单元**对应一个分支，命名为 `arc-NN`（如 `arc-02`）
-- 一个叙事单元 = 2-4章，共享同一个叙事冲突的起承转合
-- 单元内所有章节的流水线工作、修订、Agent指令更新全部提交到同一分支
-- 单元边界由主架构师在开始写作前确认，写进第一个commit的message里
+所有工作直接在 `main` 上提交，不建立功能分支或叙事单元分支。
 
-### 旧分支（chapter-NN）
-- 历史遗留的 `chapter-03` 等分支保留，不合并、不删除
-- 新工作一律使用 `arc-NN` 命名
+- 每章草稿、流水线工作、维护文件更新、修订均直接提交到 `main`
+- 不需要 PR 流程；写完直接 `git push origin main`
+- 历史遗留的 `arc-NN` / `chapter-NN` 分支保留存档，不合并、不删除、不新建
 
-### 分支判断（开始写之前先检查）
-| 情况 | 操作 |
-|---|---|
-| 新单元，无对应arc分支 | `git checkout -b arc-NN` + `git push -u origin arc-NN` |
-| 已在正确arc分支上 | 直接提交，不新建分支 |
-| 单元内新增章节 | 在同一arc分支追加提交 |
+### 文件目录约定
+| 目录 | 用途 | 操作时机 |
+|---|---|---|
+| `drafts/` | 流水线草稿（含物理方案、审查报告等） | 写作中随时提交 |
+| `chapters/` | 定稿但未发布 | 用户确认"定稿"后归档 |
+| `published/` | 正式发布 | 用户确认"发布"后归档 |
 
-### 合并规则
-- **任何arc分支合并进 `main` 必须通过 PR**
-- 不允许直接 `git merge` 到 main
-- 定稿后推送arc分支，等用户手动发起或要求开 PR
-
-### preview/combined.md 自动生成
-- `preview/combined.md` 由 GitHub Actions **自动生成**，push 到 arc-* / chapter-* 分支后触发
-- **禁止手动生成或提交 `preview/combined.md`**，让 Actions 处理即可
-- 不要在 `git add` 中包含此文件
+### preview/combined.md
+- `preview/combined.md` 由 GitHub Actions **自动生成**，合并 `drafts/` 中的草稿供预览
+- **禁止手动生成或提交**，不要在 `git add` 中包含此文件
 
 ---
 
@@ -36,9 +26,8 @@
 遵循 `PIPELINE.md` 的五步流水线：主架构BOT → 格物BOT → 执笔BOT → 逻辑BOT → 读者BOT。读者BOT优先级最高，其意见高于格物BOT。BOT文件均在 `bots/` 目录下。
 
 **定稿前必须停下来让用户审阅**，不在用户确认前执行：
-- 文件归档（`drafts/` → `chapters/`）
+- 文件归档（`drafts/` → `chapters/`，或 `chapters/` → `published/`）
 - 更新 `CHAPTER_LOG.md` / `WORLD_CALENDAR.md` / `MASTER_CODEX.md`
-- 发布性 commit
 
 **用户说"定稿"或"发布"后，必须先读 `CHAPTER_CHECKLIST.md`，逐条核对，补完所有未完成项再提交。** 不跳过，不凭记忆估算。
 
