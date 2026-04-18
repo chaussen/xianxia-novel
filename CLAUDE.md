@@ -23,7 +23,7 @@
 
 ## 写作流程
 
-遵循 `PIPELINE.md` 的五步流水线：主架构BOT → 格物BOT → 执笔BOT → 逻辑BOT → 读者BOT。读者BOT优先级最高，其意见高于格物BOT。BOT文件均在 `bots/` 目录下。
+遵循 `PIPELINE.md` 的四步流水线：主架构BOT → 格物BOT → 执笔BOT → 逻辑BOT。BOT文件均在 `bots/` 目录下。
 
 **定稿前必须停下来让用户审阅**，不在用户确认前执行：
 - 文件归档（`drafts/` → `chapters/`，或 `chapters/` → `published/`）
