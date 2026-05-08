@@ -1,11 +1,8 @@
-name: 合并草稿预览
+name: 合并章节预览
 
 on:
   push:
-    branches:
-      - 'main'
-      - 'arc-*'
-      - 'chapter-*'
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -16,39 +13,43 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 拼接所有草稿文件
+      - name: 拼接所有章节
         run: |
           mkdir -p preview
-          files=$(ls drafts/[0-9][0-9]_draft.md 2>/dev/null | sort)
 
-          if [ -z "$files" ]; then
-            echo "没有找到草稿文件，跳过。"
-            exit 0
-          fi
-
-          branch="${GITHUB_REF_NAME}"
           updated="$(date -u '+%Y-%m-%d %H:%M UTC')"
 
           {
-            echo "# 《理法修途》草稿合并预览"
+            echo "# 《理法修途》合并预览"
             echo ""
-            echo "> 分支：\`${branch}\`　|　最后更新：${updated}"
+            echo "> 最后更新：${updated}"
             echo ""
           } > preview/combined.md
 
-          for f in $files; do
-            chapter=$(basename "$f" _draft.md)
+          # 序章
+          if [ -f "published/prologue.md" ]; then
             echo "" >> preview/combined.md
             echo "---" >> preview/combined.md
             echo "" >> preview/combined.md
-            echo "<!-- ${chapter} -->" >> preview/combined.md
-            echo "" >> preview/combined.md
-            cat "$f" >> preview/combined.md
-          done
+            cat published/prologue.md >> preview/combined.md
+          fi
 
-          echo ""
-          echo "已合并文件："
-          echo "$files"
+          # 按章节编号升序合并：published/ 优先，其次 chapters/
+          for n in $(seq -w 1 99); do
+            pub="published/chapter-${n}.md"
+            chap="chapters/chapter-${n}.md"
+            if [ -f "$pub" ]; then
+              echo "" >> preview/combined.md
+              echo "---" >> preview/combined.md
+              echo "" >> preview/combined.md
+              cat "$pub" >> preview/combined.md
+            elif [ -f "$chap" ]; then
+              echo "" >> preview/combined.md
+              echo "---" >> preview/combined.md
+              echo "" >> preview/combined.md
+              cat "$chap" >> preview/combined.md
+            fi
+          done
 
       - name: 提交合并文件
         run: |
@@ -58,6 +59,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "combined.md 无变化，跳过提交。"
           else
-            git commit -m "auto: 更新草稿合并预览 [skip ci]"
+            git commit -m "auto: 更新章节合并预览 [skip ci]"
             git push
           fi
