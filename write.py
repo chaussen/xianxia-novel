@@ -34,6 +34,24 @@ except ImportError:
     print("错误：缺少 openai 库，请运行 pip install openai")
     sys.exit(1)
 
+
+def _load_dotenv():
+    """Load .env from the repo root if it exists (no extra dependencies)."""
+    env_file = Path(__file__).parent / ".env"
+    if not env_file.exists():
+        return
+    for line in env_file.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        key = key.strip()
+        value = value.strip().strip('"').strip("'")
+        if key and key not in os.environ:   # env var takes precedence
+            os.environ[key] = value
+
+_load_dotenv()
+
 # ── 目录常量 ─────────────────────────────────────────────────────────────────
 
 REPO       = Path(__file__).parent
@@ -52,7 +70,7 @@ SETTINGS_FILES = [
     (REPO / "CHAPTER_LOG.md",           "章节日志·已用物理原理"),
     (REPO / "WORLD_CALENDAR.md",        "世界日历·背景事件"),
     (REPO / "TIANGONG_LILUE.md",        "天工理略残页管理"),
-    (REPO / "bots" / "WRITING_EXAMPLES.md", "战斗场景例证"),
+    (REPO / "WRITING_EXAMPLES.md",           "战斗场景例证"),
 ]
 
 

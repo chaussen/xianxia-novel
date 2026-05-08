@@ -4,32 +4,37 @@
 
 所有工作直接在 `main` 上提交，不建立功能分支或叙事单元分支。
 
-- 每章草稿、流水线工作、维护文件更新、修订均直接提交到 `main`
+- 每章草稿、维护文件更新、修订均直接提交到 `main`
 - 不需要 PR 流程；写完直接 `git push origin main`
 - 历史遗留的 `arc-NN` / `chapter-NN` 分支保留存档，不合并、不删除、不新建
 
 ### 文件目录约定
 | 目录 | 用途 | 操作时机 |
 |---|---|---|
-| `drafts/` | 流水线草稿（含物理方案、审查报告等） | 写作中随时提交 |
-| `chapters/` | 定稿但未发布 | 用户确认"定稿"后归档 |
+| `chapters/` | AI 写作输出（草稿） | `write.py write N` 自动保存 |
 | `published/` | 正式发布 | 用户确认"发布"后归档 |
 
 ### preview/combined.md
-- `preview/combined.md` 由 GitHub Actions **自动生成**，合并 `drafts/` 中的草稿供预览
+- `preview/combined.md` 由 GitHub Actions **自动生成**，合并 `published/` + `chapters/` 供预览
 - **禁止手动生成或提交**，不要在 `git add` 中包含此文件
 
 ---
 
-## 写作流程
+## 写作工具
 
-遵循 `PIPELINE.md` 的四步流水线：主架构BOT → 格物BOT → 执笔BOT → 逻辑BOT。BOT文件均在 `bots/` 目录下。
+使用 `write.py` 进行所有写作和审查工作：
+
+```bash
+python write.py write 5          # 写第5章
+python write.py write 5 9        # 顺序写第5到第9章
+python write.py logic 5 8        # 逻辑审查第5到8章
+python write.py consistency      # 全局一致性检查
+python write.py stitch           # 拼接到 preview/reading.md
+```
 
 **定稿前必须停下来让用户审阅**，不在用户确认前执行：
-- 文件归档（`drafts/` → `chapters/`，或 `chapters/` → `published/`）
+- 文件归档（`chapters/` → `published/`）
 - 更新 `CHAPTER_LOG.md` / `WORLD_CALENDAR.md` / `MASTER_CODEX.md`
-
-**用户说"定稿"或"发布"后，必须先读 `CHAPTER_CHECKLIST.md`，逐条核对，补完所有未完成项再提交。** 不跳过，不凭记忆估算。
 
 ---
 
