@@ -20,7 +20,7 @@
 
 ---
 
-## 写作工具
+## 工作流一：CLI 脚本（write.py + DeepSeek API）
 
 使用 `write.py` 进行所有写作和审查工作：
 
@@ -32,9 +32,38 @@ python write.py consistency      # 全局一致性检查
 python write.py stitch           # 拼接到 preview/reading.md
 ```
 
+需要 `DEEPSEEK_API_KEY`（在 `.env` 或环境变量中设置）。
+
 **定稿前必须停下来让用户审阅**，不在用户确认前执行：
 - 文件归档（`chapters/` → `published/`）
 - 更新 `CHAPTER_LOG.md` / `WORLD_CALENDAR.md` / `MASTER_CODEX.md`
+
+---
+
+## 工作流二：直接会话写作（Claude Code）
+
+在此对话中直接写作时，遵守以下流程：
+
+### 写作前（必读）
+每次写新章前，按顺序读取：
+1. `MASTER_CODEX.md` — 世界观、人物、当前状态、禁止事项
+2. `CHAPTER_LOG.md` — 已用物理原理、章节进度
+3. `WORLD_CALENDAR.md` — 当前背景事件
+4. `TIANGONG_LILUE.md` — 残页管理，确认可用残页编号
+5. 最近 2—4 章正文（`published/` 或 `chapters/`）
+
+### 输出
+- 章节正文直接输出到对话，供用户审阅
+- 用户确认后，写入 `chapters/chapter-NN.md`，提交到 `main`
+- 提交信息格式：`draft: 第N章`
+
+### 审查
+- 逻辑审查和一致性检查：直接在对话中输出报告，不写文件
+- 若用户需要保存报告，询问后写入 `reviews/`
+
+### 设定更新
+- 用户批准后才更新 `CHAPTER_LOG.md` / `WORLD_CALENDAR.md` / `MASTER_CODEX.md`
+- 更新时精确修改对应字段，不重写整个文件
 
 ---
 

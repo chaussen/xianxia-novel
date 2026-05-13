@@ -3,13 +3,13 @@
 《理法修途》写作工具
 
 用法：
-  python writer.py write 5            # 写第5章（读取已有章节1-4作为上下文）
-  python writer.py write 5 9          # 顺序写第5到第9章
-  python writer.py logic 5            # 逻辑审查第5章
-  python writer.py logic 5 8          # 逻辑审查第5到8章（合并后整体审查）
-  python writer.py consistency        # 一致性检查所有已有章节
-  python writer.py consistency 9      # 一致性检查第1到9章
-  python writer.py stitch             # 拼接所有章节到 preview/reading.md
+  python write.py write 5             # 写第5章（读取已有章节1-4作为上下文）
+  python write.py write 5 9           # 顺序写第5到第9章
+  python write.py logic 5             # 逻辑审查第5章
+  python write.py logic 5 8           # 逻辑审查第5到8章（合并后整体审查）
+  python write.py consistency         # 一致性检查所有已有章节
+  python write.py consistency 9       # 一致性检查第1到9章
+  python write.py stitch              # 拼接所有章节到 preview/reading.md
 
 通用选项：
   --model MODEL        DeepSeek 模型（默认 deepseek-chat，可用 deepseek-reasoner）
