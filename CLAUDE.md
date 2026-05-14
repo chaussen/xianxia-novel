@@ -1,12 +1,13 @@
 # Claude Code 项目规则 — 理法修途
 
-## 分支策略：Trunk
+## 分支策略：单一开发分支
 
-所有工作直接在 `main` 上提交，不建立功能分支或叙事单元分支。
+所有工作在 `claude/review-latest-changes-98lco` 上进行。Claude 不与 `main` 分支交互。
 
-- 每章草稿、维护文件更新、修订均直接提交到 `main`
-- 不需要 PR 流程；写完直接 `git push origin main`
-- 历史遗留的 `arc-NN` / `chapter-NN` 分支保留存档，不合并、不删除、不新建
+- 每章草稿、维护文件更新、修订均直接提交到 `claude/review-latest-changes-98lco`
+- 写完直接 `git push origin claude/review-latest-changes-98lco`
+- **禁止**执行 `git pull`、`git fetch`、`git checkout main` 或任何涉及 `main` 的操作
+- 用户在 GitHub 上按需发起 PR 将此分支合并到 `main`；Claude 无需感知 PR 状态
 
 ### 文件目录约定
 | 目录 | 用途 | 操作时机 |
@@ -56,6 +57,10 @@ python write.py stitch           # 拼接到 preview/reading.md
 - 章节正文直接输出到对话，供用户审阅
 - 用户确认后，写入 `chapters/chapter-NN.md`，提交到 `main`
 - 提交信息格式：`draft: 第N章`
+
+### 篇幅与节奏（每章必须遵守）
+- **目标篇幅：约三千中文字符**（含账本余页）
+- **技术与描写的平衡**：物理洞察必须被具体感官细节稀释——场所的气味与温度、人物的姿势与细节、道具的质感与状态、等待的身体感受。连续两段以上的机理推导即为失衡。格物原理通过观察到的现象和可见的证据呈现，不直接陈述为机理链条。目标读者是普通读者，不是物理爱好者。
 
 ### 审查
 - 逻辑审查和一致性检查：直接在对话中输出报告，不写文件
