@@ -1,12 +1,13 @@
 # Claude Code 项目规则 — 理法修途
 
-## 分支策略：Trunk
+## 分支策略：单一开发分支
 
-所有工作直接在 `main` 上提交，不建立功能分支或叙事单元分支。
+所有工作在 `claude/review-latest-changes-98lco` 上进行。Claude 不与 `main` 分支交互。
 
-- 每章草稿、维护文件更新、修订均直接提交到 `main`
-- 不需要 PR 流程；写完直接 `git push origin main`
-- 历史遗留的 `arc-NN` / `chapter-NN` 分支保留存档，不合并、不删除、不新建
+- 每章草稿、维护文件更新、修订均直接提交到 `claude/review-latest-changes-98lco`
+- 写完直接 `git push origin claude/review-latest-changes-98lco`
+- **禁止**执行 `git pull`、`git fetch`、`git checkout main` 或任何涉及 `main` 的操作
+- 用户在 GitHub 上按需发起 PR 将此分支合并到 `main`；Claude 无需感知 PR 状态
 
 ### 文件目录约定
 | 目录 | 用途 | 操作时机 |
