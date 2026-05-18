@@ -7,6 +7,8 @@
   python write.py write 5 9           # 顺序写第5到第9章
   python write.py logic 5             # 逻辑审查第5章
   python write.py logic 5 8           # 逻辑审查第5到8章（合并后整体审查）
+  python write.py review 5            # 双轨审查第5章（物理 + 剧情方向）
+  python write.py review 5 12         # 双轨审查第5到12章
   python write.py consistency         # 一致性检查所有已有章节
   python write.py consistency 9       # 一致性检查第1到9章
   python write.py stitch              # 拼接所有章节到 preview/reading.md
@@ -63,6 +65,7 @@ REVIEWS    = REPO / "reviews"
 WRITE_PROMPT      = REPO / "DEEPSEEK_PROMPT.md"
 LOGIC_PROMPT      = REPO / "LOGIC_PROMPT.md"
 CONSISTENCY_PROMPT = REPO / "CONSISTENCY_PROMPT.md"
+REVIEW_PROMPT     = REPO / "REVIEW_PROMPT.md"
 
 # 每次写作都注入的设定文件（顺序有意义：重要的先读）
 SETTINGS_FILES = [
@@ -279,6 +282,60 @@ def run_logic(client: OpenAI, start: int, end: int,
     print(f"[✓] 审查报告已保存：{out_path}")
 
 
+# ── review 模式 ──────────────────────────────────────────────────────────────
+
+def run_review(client: OpenAI, start: int, end: int,
+               model: str, dry_run: bool):
+    system = read(REVIEW_PROMPT)
+    if not system:
+        print(f"错误：找不到 {REVIEW_PROMPT}")
+        sys.exit(1)
+
+    codex = read(REPO / "MASTER_CODEX.md")
+    log   = read(REPO / "CHAPTER_LOG.md")
+    lilue = read(REPO / "TIANGONG_LILUE.md")
+    parts = [section("世界观·人物·剧情方向·物理映射表", codex),
+             section("章节日志·已用物理原理", log),
+             section("天工理略·残页管理", lilue)]
+
+    for n in range(start, end + 1):
+        path = find_chapter(n)
+        if path:
+            parts.append(section(f"第{n}章正文", read(path)))
+        else:
+            print(f"[!] 找不到第{n}章，跳过")
+
+    context = "\n\n".join(parts)
+    range_str = f"{start}" if start == end else f"{start}-{end}"
+    user_msg = (
+        f"请对第{range_str}章执行双轨审查：\n"
+        f"（1）物理准确度审查——核查物理原理应用是否正确，区分可接受夸张与真实错误；\n"
+        f"（2）剧情方向核查——核查格物工程进度与 MASTER_CODEX 方向是否一致，\n"
+        f"    特别注意正统困境×异端解法的对应关系，铺垫完整性，以及三层语言合规。\n"
+        f"按照输出格式严格输出完整双轨报告，Part 1 和 Part 2 各自完整。"
+    )
+
+    print(f"\n[~] 双轨审查第{range_str}章（模型：{model}）…")
+    print("-" * 60)
+
+    report = call_api(client, model,
+                      system=system,
+                      messages=[{"role": "user", "content": context},
+                                 {"role": "user", "content": user_msg}],
+                      max_tokens=5000,
+                      dry_run=dry_run)
+
+    if dry_run or not report.strip():
+        return
+
+    print("-" * 60)
+    REVIEWS.mkdir(exist_ok=True)
+    ts = datetime.now().strftime("%m%d-%H%M")
+    out_path = REVIEWS / f"review-ch{range_str}-{ts}.md"
+    out_path.write_text(report, encoding="utf-8")
+    print(f"[✓] 双轨审查报告已保存：{out_path}")
+
+
 # ── consistency 模式 ─────────────────────────────────────────────────────────
 
 def run_consistency(client: OpenAI, up_to: int | None,
@@ -405,6 +462,13 @@ def main():
     pl.add_argument("--model",   default="deepseek-chat")
     pl.add_argument("--dry-run", action="store_true")
 
+    # review
+    pr = sub.add_parser("review", help="双轨审查（物理 + 剧情方向）")
+    pr.add_argument("start", type=int, help="审查起始章节")
+    pr.add_argument("end",   type=int, nargs="?", help="审查结束章节（省略=只审一章）")
+    pr.add_argument("--model",   default="deepseek-chat")
+    pr.add_argument("--dry-run", action="store_true")
+
     # consistency
     pc = sub.add_parser("consistency", help="全局一致性检查")
     pc.add_argument("up_to", type=int, nargs="?",
@@ -440,6 +504,10 @@ def main():
     elif args.cmd == "logic":
         end = args.end if args.end else args.start
         run_logic(client, args.start, end, model=model, dry_run=dry)
+
+    elif args.cmd == "review":
+        end = args.end if args.end else args.start
+        run_review(client, args.start, end, model=model, dry_run=dry)
 
     elif args.cmd == "consistency":
         run_consistency(client, args.up_to, model=model, dry_run=dry)
