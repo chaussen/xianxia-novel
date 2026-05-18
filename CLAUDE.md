@@ -29,6 +29,7 @@
 python write.py write 5          # 写第5章
 python write.py write 5 9        # 顺序写第5到第9章
 python write.py logic 5 8        # 逻辑审查第5到8章
+python write.py review 5 12      # 双轨审查第5到12章（物理 + 剧情方向）
 python write.py consistency      # 全局一致性检查
 python write.py stitch           # 拼接到 preview/reading.md
 ```
@@ -63,8 +64,26 @@ python write.py stitch           # 拼接到 preview/reading.md
 - **技术与描写的平衡**：物理洞察必须被具体感官细节稀释——场所的气味与温度、人物的姿势与细节、道具的质感与状态、等待的身体感受。连续两段以上的机理推导即为失衡。格物原理通过观察到的现象和可见的证据呈现，不直接陈述为机理链条。目标读者是普通读者，不是物理爱好者。
 
 ### 审查
-- 逻辑审查和一致性检查：直接在对话中输出报告，不写文件
+
+#### 逻辑审查 / 一致性检查
+- 直接在对话中输出报告，不写文件
 - 若用户需要保存报告，询问后写入 `reviews/`
+
+#### 双轨审查（物理 + 剧情方向）
+当用户要求"review"或"双轨审查"某些章节时，按以下步骤执行：
+
+**准备阶段（必须按顺序读取）：**
+1. `REVIEW_PROMPT.md` — 审查标准与输出格式（物理准确度规则 + 剧情方向规则）
+2. `MASTER_CODEX.md` — 世界观、五步工程序列、物理映射表、禁止事项
+3. `CHAPTER_LOG.md` — 已用物理原理与章节进度
+4. `TIANGONG_LILUE.md` — 残页管理，确认各章使用的残页编号
+5. 所有指定章节的正文（`published/` 或 `chapters/`）
+
+**执行：**
+- 将 `REVIEW_PROMPT.md` 的审查标准应用于上述上下文，自行完成双轨审查
+- 严格按照 `REVIEW_PROMPT.md` 的输出格式输出 Part 1（物理）和 Part 2（剧情方向）
+- 报告直接输出到对话
+- 报告完成后询问是否保存到 `reviews/review-chN-M-日期.md`
 
 ### 设定更新
 - 用户批准后才更新 `CHAPTER_LOG.md` / `WORLD_CALENDAR.md` / `MASTER_CODEX.md`
